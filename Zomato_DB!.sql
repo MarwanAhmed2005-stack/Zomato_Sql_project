@@ -327,10 +327,19 @@ ORDER BY order_year,order_month
 )AS previous_month_orders
 from MonthlyItemORders;
 
+--Q.20 Rank each city based on the total revenue for last year 2023
 
-
---Q.20 Monthly Restaurnat Growth Ratio:
---Calculate each restaurnats growth ration based on total number of delivered orders since its joining
+select sum(o.total_amount) as total_revenue,
+r.city,
+RANK() OVER(
+ORDER BY SUM(o.total_amount) DESC
+)AS city_rank
+from orders o 
+join restaurants r
+on o.restaurant_id = r.restaurant_id
+WHERE YEAR(o.order_date) = '2023'
+group by r.city 
+--End of the project
 
 
 
